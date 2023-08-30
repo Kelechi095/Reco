@@ -1,13 +1,13 @@
 import {createSlice, createAsyncThunk, PayloadAction} from '@reduxjs/toolkit'
 
 export const getCountries = createAsyncThunk('countries/fetch', async() => {
-    const response = await fetch('../data.json')
+    const response = await fetch("../data.json")
     const data = await response.json()
     return data
 })
 
 interface CountryType {
-    countries: object[],
+    countries: [],
     loading: boolean
     error: string | undefined | null
 }
