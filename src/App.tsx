@@ -3,7 +3,6 @@ import useFetchData from "./hooks/useFetchData";
 
 function App() {
 
- const url = "../data.json"
 
 
   const {fetchData, countries, isLoading} = useFetchData(url)
