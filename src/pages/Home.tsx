@@ -1,39 +1,46 @@
 import { useEffect } from "react";
 import { RootState } from "../redux/store";
-import {useSelector, useDispatch} from 'react-redux'
-import { getCountries, setCountryState } from "../redux/countrySlice";
+import { useSelector, useDispatch } from "react-redux";
+import { getCountries, setFilteredCountriesState } from "../redux/countrySlice";
 import { AppDispatch } from "../redux/store";
-import { Ring} from '@uiball/loaders'
-
+import { Ring } from "@uiball/loaders";
+import { filterOptions } from "../utils/utils";
 
 const Home = () => {
-    const dispatch = useDispatch<AppDispatch>()
+  const dispatch = useDispatch<AppDispatch>();
 
-  const {countries, loading} = useSelector((state: RootState) => state.countries)
-
-  const arr = ["All", "Africa", "America", "Asia", "Europe", "Oceania"]
-
+  const { filteredCountries, loading } = useSelector(
+    (state: RootState) => state.countries
+  );
 
   useEffect(() => {
-    dispatch(getCountries())
-  }, [dispatch])
+    dispatch(getCountries());
+  }, [dispatch]);
 
   const handleSetCountry = (payload: string) => {
-    dispatch(setCountryState(payload))
-  }
+    dispatch(setFilteredCountriesState(payload));
+  };
 
-  console.log(countries)
+  console.log(filteredCountries);
 
-  if(loading){
-    return <Ring size={45} color="#231f20"/>
+  if (loading) {
+    return <Ring size={45} color="#231f20" />;
   }
 
   return (
     <>
-    <h1>This is the home page</h1>
-    <button onClick={() => handleSetCountry('Asia')}>Click</button>
+      <section>
+        <div className="filterOptions">
+          {filterOptions.map((option, index) => (
+            <button key={index} onClick={() => handleSetCountry(option)}>
+              {option}
+            </button>
+          ))}
+        </div>
+        <div className="country-card"></div>
+      </section>
     </>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;

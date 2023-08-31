@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { CountryType } from "../types/types";
 
 export const getCountries = createAsyncThunk("countries/fetch", async () => {
@@ -9,6 +9,7 @@ export const getCountries = createAsyncThunk("countries/fetch", async () => {
 
 const initialState: CountryType = {
   countries: [],
+  filteredCountries: [],
   loading: false,
   error: null,
 };
@@ -17,29 +18,36 @@ export const countriesSlice = createSlice({
   name: "countries",
   initialState,
   reducers: {
-    setCountryState(state: any, action: PayloadAction) {
-      state.countries = state.countries.filter((country: any) => {
-        return country.region === action.payload
+    setFilteredCountriesState(state: any, action) {
+      state.filteredCountries = state.countries.filter((country: any) => {
+        if (action.payload === "All") {
+          return country;
+        }
+        return country.region === action.payload;
       });
     },
   },
   extraReducers: (builder) => {
     builder
       .addCase(getCountries.pending, (state) => {
-        (state.countries = []), (state.loading = true);
+        (state.countries = []),
+          (state.filteredCountries = []),
+          (state.loading = true);
       })
       .addCase(getCountries.fulfilled, (state, action) => {
         state.countries = action.payload;
+        state.filteredCountries = action.payload;
         state.loading = false;
       })
       .addCase(getCountries.rejected, (state, action) => {
         (state.countries = []),
+          (state.filteredCountries = []),
           (state.loading = false),
           (state.error = action.error.message);
       });
   },
 });
 
-export const { setCountryState } = countriesSlice.actions;
+export const { setFilteredCountriesState } = countriesSlice.actions;
 
 export default countriesSlice.reducer;
