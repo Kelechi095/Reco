@@ -26,9 +26,8 @@ const Home = () => {
     setKeyWord(e.target.value);
   };
 
-  console.log(filteredCountries);
 
-  const searchCountries = (filteredCountries, keyword) => {
+  const searchCountries = (filteredCountries: [], keyword: string) => {
     return filteredCountries
       .filter((country: any) => {
         if (keyword.length === 0) {
@@ -37,25 +36,15 @@ const Home = () => {
           return country;
         }
       })
-      .map((country: any) => {
-        return (
-          <div className="country">
-            <p>{country.name}</p>
-          </div>
-        );
-      });
   };
 
-  const content = searchCountries(filteredCountries, keyword)
-
-  console.log(content)
+  const countries = searchCountries(filteredCountries, keyword)
 
   if (loading) {
     return <Ring size={45} color="#231f20" />;
   }
 
   return (
-    <>
       <section>
         <div className="filterOptions">
           {filterOptions.map((option, index) => (
@@ -67,9 +56,14 @@ const Home = () => {
         <div className="search">
           <input type="text" value={keyword} onChange={handleChange} />
         </div>
-        <div className="country-card">{content}</div>
+        <div className="country-card">
+            {countries.map((country: any) => (
+                <div className="country" key={country.alpha3Code}>
+                    <p>{country.name}</p>
+                </div>
+            ))}
+        </div>
       </section>
-    </>
   );
 };
 
