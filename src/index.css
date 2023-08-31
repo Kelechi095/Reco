@@ -18,3 +18,15 @@ h1, h2, h3, h4, p {
   display: flex;
   gap: 10px;
 }
+
+p {
+  font-size: 12px;
+}
+
+.pagination {
+  display: flex;
+  justify-content: space-between;
+  width: 400px;
+  list-style-type: none;
+  margin-top: 20px;
+}

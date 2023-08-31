@@ -27,7 +27,7 @@ const Country = () => {
     dispatch(setCountry(selectedCountry));
   }, [dispatch, selectedCountry]);
 
-  const borders = country?.borders.map((border) =>
+  const borders = country?.borders?.map((border) =>
     getCountryName(countries, border)
   );
 
@@ -35,6 +35,7 @@ const Country = () => {
     <div>
       <h1>{country?.name}</h1>
       <div className="borders">
+        <p>Border: </p>
         {borders?.map((border, index) => (
           <Link to={`/${border}`} key={index}>
             <p>{border}</p>
