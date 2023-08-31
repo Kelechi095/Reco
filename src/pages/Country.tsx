@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import { setCountry, getCountries } from "../redux/countrySlice";
 import { CountryType } from "../types/types";
+import { getCountryName } from "../utils/getCountryName";
 
 const Country = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -26,22 +27,14 @@ const Country = () => {
     dispatch(setCountry(selectedCountry));
   }, [dispatch, selectedCountry]);
 
-  const getCountryName = (arg: string) => {
-    const newCountry = countries.find(country => country.alpha3Code === arg)
-    return newCountry?.name
-  }
-
   const content = country?.borders.map((border, index) => (
-    <h4 key={index}>{getCountryName(border)}</h4>
+    <h4 key={index}>{getCountryName(countries, border)}</h4>
   ));
-
 
   return (
     <div>
       <h1>{country?.name}</h1>
-      <div className="borders">
-         {content}
-      </div>
+      <div className="borders">{content}</div>
     </div>
   );
 };
