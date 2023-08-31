@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { AppDispatch, RootState } from "../redux/store";
 import { useSelector, useDispatch } from "react-redux";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { setCountry, getCountries } from "../redux/countrySlice";
 import { CountryType } from "../types/types";
 import { getCountryName } from "../utils/getCountryName";
@@ -20,21 +20,27 @@ const Country = () => {
   const { id } = useParams();
 
   const selectedCountry = filteredCountries.find(
-    (country: CountryType) => country.alpha3Code === id
+    (country: CountryType) => country.name === id
   );
 
   useEffect(() => {
     dispatch(setCountry(selectedCountry));
   }, [dispatch, selectedCountry]);
 
-  const content = country?.borders.map((border, index) => (
-    <h4 key={index}>{getCountryName(countries, border)}</h4>
-  ));
+  const borders = country?.borders.map((border) =>
+    getCountryName(countries, border)
+  );
 
   return (
     <div>
       <h1>{country?.name}</h1>
-      <div className="borders">{content}</div>
+      <div className="borders">
+        {borders?.map((border, index) => (
+          <Link to={`/${border}`} key={index}>
+            <p>{border}</p>
+          </Link>
+        ))}
+      </div>
     </div>
   );
 };

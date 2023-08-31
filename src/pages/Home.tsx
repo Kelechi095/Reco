@@ -54,7 +54,7 @@ const Home = () => {
       <div className="country-card">
         {countries.map((country: CountryType) => (
           <div className="country" key={country.alpha3Code}>
-            <Link to={`/${country.alpha3Code}`}>
+            <Link to={`/${country.name}`}>
               <p>{country.name}</p>
             </Link>
           </div>
