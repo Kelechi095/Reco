@@ -3,9 +3,10 @@ import { RootState } from "../redux/store";
 import { useSelector, useDispatch } from "react-redux";
 import { getCountries, setFilteredCountriesState } from "../redux/countrySlice";
 import { AppDispatch } from "../redux/store";
-import { Ring } from "@uiball/loaders";
+import { DotWave } from "@uiball/loaders";
 import { filterOptions } from "../utils/filterOptions";
 import { searchCountries } from "../utils/filterFunction";
+import { Link } from "react-router-dom";
 
 const Home = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -30,7 +31,7 @@ const Home = () => {
   const countries = searchCountries(filteredCountries, keyword);
 
   if (loading) {
-    return <Ring size={45} color="#231f20" />;
+    return <DotWave size={45} color="#231f20" />;
   }
 
   return (
@@ -48,7 +49,9 @@ const Home = () => {
       <div className="country-card">
         {countries.map((country: any) => (
           <div className="country" key={country.alpha3Code}>
-            <p>{country.name}</p>
+            <Link to={`/${country.name}`}>
+              <p>{country.name}</p>
+            </Link>
           </div>
         ))}
       </div>
