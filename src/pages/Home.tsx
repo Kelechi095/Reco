@@ -7,6 +7,7 @@ import { DotWave } from "@uiball/loaders";
 import { filterOptions } from "../utils/filterOptions";
 import { searchCountries } from "../utils/filterFunction";
 import { Link } from "react-router-dom";
+import { CountryType } from "../types/types";
 
 const Home = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -31,7 +32,9 @@ const Home = () => {
   const countries = searchCountries(filteredCountries, keyword);
 
   if (loading) {
-    return <DotWave size={45} color="#231f20" />;
+    return <div className="loading">
+      <DotWave size={45} color="#231f20" />;
+    </div>;
   }
 
   return (
@@ -47,9 +50,9 @@ const Home = () => {
         <input type="text" value={keyword} onChange={handleChange} />
       </div>
       <div className="country-card">
-        {countries.map((country: any) => (
+        {countries.map((country: CountryType) => (
           <div className="country" key={country.alpha3Code}>
-            <Link to={`/${country.name}`}>
+            <Link to={`/${country.alpha3Code}`}>
               <p>{country.name}</p>
             </Link>
           </div>

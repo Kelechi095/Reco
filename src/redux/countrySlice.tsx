@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { CountryType } from "../types/types";
+import { StateType, CountryType } from "../types/types";
 
 export const getCountries = createAsyncThunk("countries/fetch", async () => {
   const response = await fetch("../data.json");
@@ -7,9 +7,10 @@ export const getCountries = createAsyncThunk("countries/fetch", async () => {
   return data;
 });
 
-const initialState: CountryType = {
+const initialState: StateType = {
   countries: [],
   filteredCountries: [],
+  country: null, 
   loading: false,
   error: null,
 };
@@ -18,14 +19,17 @@ export const countriesSlice = createSlice({
   name: "countries",
   initialState,
   reducers: {
-    setFilteredCountriesState(state: any, action) {
-      state.filteredCountries = state.countries.filter((country: any) => {
+    setFilteredCountriesState(state: StateType, action) {
+      state.filteredCountries = state.countries.filter((country: CountryType) => {
         if (action.payload === "All") {
           return country;
         }
         return country.region === action.payload;
       });
     },
+    setCountry(state, action) {
+        state.country = action.payload
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -48,6 +52,6 @@ export const countriesSlice = createSlice({
   },
 });
 
-export const { setFilteredCountriesState } = countriesSlice.actions;
+export const { setFilteredCountriesState, setCountry } = countriesSlice.actions;
 
 export default countriesSlice.reducer;
