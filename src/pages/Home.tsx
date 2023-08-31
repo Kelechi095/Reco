@@ -32,9 +32,11 @@ const Home = () => {
   const countries = searchCountries(filteredCountries, keyword);
 
   if (loading) {
-    return <div className="loading">
-      <DotWave size={45} color="#231f20" />;
-    </div>;
+    return (
+      <div className="loading">
+        <DotWave size={45} color="#231f20" />;
+      </div>
+    );
   }
 
   return (
